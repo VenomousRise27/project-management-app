@@ -39,7 +39,6 @@ const Sidebar = () => {
         </div>
 
         {/* NavBar Link */}
-        {/* sothing */}
       </div>
     </div>
   )
