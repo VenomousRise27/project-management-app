@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Link, LockIcon, LucideIcon } from "lucide-react";
+import { Home, LockIcon, LucideIcon } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 
@@ -36,6 +37,13 @@ const Sidebar = () => {
         </div>
 
         {/* NavBar Link */}
+        <nav className="z-10 w-full">
+          <SidebarLink
+          icon={Home}
+          label="Home"
+          href="/"
+          />
+        </nav>
       </div>
     </div>
   );
@@ -45,14 +53,14 @@ interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  isCollapsed: boolean;
+  // isCollapsed: boolean;
 }
 
 const SidebarLink = ({
   href,
   icon: Icon,
   label,
-  isCollapsed,
+  // isCollapsed,
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
@@ -69,7 +77,14 @@ const SidebarLink = ({
       <div
         className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""}`}
       >
-        
+        {isActive && (
+          <div className="absolute left-0 top-0 h[100%] w-[5px] bg-blue-200" />
+        )}
+
+        <Icon className="h-6 w-6 text-gray-800 dark:text-gray-100"/>
+        <span className={`font-medium text-gray-800 dark:text-gray-100`}>
+          {label}
+        </span>
       </div>
     </Link>
   );
