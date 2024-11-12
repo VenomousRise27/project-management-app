@@ -17,7 +17,9 @@ const Sidebar = () => {
     (state) => state.global.isSidebarCollapsed,
   );
 
-  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64" }`;
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}`;
   return (
     <div className={sidebarClassNames}>
       <div className="flex h-[100%] w-full flex-col justify-start">
@@ -28,15 +30,25 @@ const Sidebar = () => {
           </div>
 
           {isSidebarCollapsed ? null : (
-            <button className="py-3" onClick={() => {dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}}>
-              <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white"/>
+            <button
+              className="py-3"
+              onClick={() => {
+                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+              }}
+            >
+              <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
             </button>
           )}
         </div>
 
         {/* Team */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
-          <Image src="/logo.png" alt="Logo" width={40} height={40} />
+          <Image
+            src={isDarkMode ? "/logo_dark.png" : "/logo.png"}
+            alt="Logo"
+            width={40}
+            height={40}
+          />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
               ANH TEAM
