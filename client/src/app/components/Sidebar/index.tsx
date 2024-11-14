@@ -69,6 +69,12 @@ const Sidebar = () => {
           <SidebarLink icon={User} label="Users" href="/users" />
           <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
+
+
+        <button onClick={() => setShowProjects((prev) => !prev)} 
+          className="flex w-full items-center justify-between px-8 py-3 text-gray-500">
+            <span className="">Projects</span>
+          </button>
       </div>
     </div>
   );
