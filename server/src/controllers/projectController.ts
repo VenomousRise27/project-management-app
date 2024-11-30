@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -10,8 +10,10 @@ export const getProjects = async (
   try {
     const projects = await prisma.project.findMany();
     res.json(projects);
-  } catch (e) {
-    res.status(500).json({ message: "Error retrieving projects" });
+  } catch (e: any) {
+    res
+      .status(500)
+      .json({ message: `Error retrieving projects: ${e.message}` });
   }
 };
 
@@ -19,18 +21,18 @@ export const createProject = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { name, description, startDart, endDate } = req.body;
+  const { name, description, startDate, endDate } = req.body;
   try {
     const newProject = await prisma.project.create({
       data: {
-        name, 
+        name,
         description,
         startDate,
-        endDate
-      }
-    })
+        endDate,
+      },
+    });
     res.status(201).json(newProject);
-  } catch (e) {
-    res.status(500).json({ message: "Error creating projects" });
+  } catch (e: any) {
+    res.status(500).json({ message: `Error creating projects: ${e.message}` });
   }
 };
