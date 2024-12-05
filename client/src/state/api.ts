@@ -29,14 +29,14 @@ export interface User {
   email: string;
   profilePictureUrl?: string;
   cognitoId?: string;
-  teamId?:number;
+  teamId?: number;
 }
 
 export interface Attachment {
   id: number;
-  fileURL:string;
+  fileURL: string;
   fileName: string;
-  taskId:number;
+  taskId: number;
   uploadedById: number;
 }
 
@@ -63,8 +63,21 @@ export interface Task {
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: [],
-  endpoints: (build) => ({}),
+  tagTypes: ["Projects"],
+  endpoints: (build) => ({
+    getProjects: build.query<Project[], void>({
+      query: () => "projects",
+      providesTags: ["Projects"],
+    }),
+    createProject: build.mutation<Project, Partial<Project>>({
+      query: (project) => ({
+        url: "projects",
+        method: "POST",
+        body: project,
+      }),
+      invalidatesTags: ["Projects"]
+    }),
+  }),
 });
 
 export const {} = api;
