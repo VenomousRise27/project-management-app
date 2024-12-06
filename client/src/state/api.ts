@@ -63,10 +63,10 @@ export interface Task {
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["Projects", "Tasks"],
+  tagTypes: ["Projects", "Tasks"], 
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
-      query: () => "projects",
+      query: () => "projects", 
       providesTags: ["Projects"],
     }),
     createProject: build.mutation<Project, Partial<Project>>({
