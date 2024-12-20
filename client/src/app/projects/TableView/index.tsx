@@ -1,5 +1,7 @@
 import { useAppSelector } from "@/app/redux";
+import Header from "@/components/Header";
 import { useGetTasksQuery } from "@/state/api";
+import {DataGrid} from "@mui/x-data-grid";
 import React from "react";
 
 type TableViewProps = {
@@ -18,7 +20,16 @@ const TableView = ({ id, setIsModalNewTaskOpen }: TableViewProps) => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occured while fetching tasks</div>;
-  return <div></div>;
+  return (
+  <div className="h-[540px] w-full px-4 pb-8 xl:px-6">
+      <div className="pt-5">
+        <Header name="Table" isSmallText/>
+        <DataGrid
+        row={tasks || []}
+        coloumns={columns}
+        />
+      </div>
+  </div>);
 };
 
 export default TableView;
