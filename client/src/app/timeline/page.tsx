@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
@@ -10,14 +10,10 @@ import React, { useMemo, useState } from "react";
 
 type TaskTypeItems = "task" | "milestone" | "project";
 
-const TimeLineView = () => {
+const TimeLine = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
-  const {
-    data: projects,
-    isLoading,
-    isError
-  } = useGetProjectsQuery();
+  const { data: projects, isLoading, isError } = useGetProjectsQuery();
 
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({
     viewMode: ViewMode.Month,
@@ -48,12 +44,13 @@ const TimeLineView = () => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError || !projects) return <div>An error occured while fetching projects</div>;
+  if (isError || !projects)
+    return <div>An error occured while fetching projects</div>;
 
   return (
     <div className="max-w-full p-8">
       <header className="mb-4 flex items-center justify-between">
-        <Header name="Projects Timeline"/>
+        <Header name="Projects Timeline" />
         <div className="relative inline-block w-64">
           <select
             className="focus:shadow-outline block w-full appearance-none rounded border border-gray-400 bg-white px-4 py-2 pr-8 leading-tight shadow hover:border-gray-500 focus:outline-none dark:border-dark-secondary dark:bg-dark-secondary dark:text-white"
@@ -84,4 +81,4 @@ const TimeLineView = () => {
   );
 };
 
-export default TimeLineView;
+export default TimeLine;
