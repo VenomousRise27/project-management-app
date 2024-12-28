@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { debounce } from "lodash";
 import Header from "@/components/Header";
 import TaskCard from "@/components/TaskCard";
+import ProjectCard from "@/components/ProjectCard";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
