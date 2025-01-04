@@ -6,10 +6,10 @@ import Modal from "@/components/Modal";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  id: number;
+  id?: number | null;
 };
 
-const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
+const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,9 +20,10 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
+  const [projectId, setProjectId] = useState("");
 
   const handleSubmit = async () => {
-    if (!title && !authorUserId) return;
+    if (!title && !authorUserId && !(id !== null || projectId)) return;
 
     await createTask({
       title,
@@ -34,12 +35,12 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
       dueDate: formatISO(new Date(dueDate), { representation: "complete" }),
       authorUserId: parseInt(authorUserId),
       assignedUserId: parseInt(assignedUserId),
-      projectId: id,
+      projectId: id !== null ? id : Number(projectId),
     });
   };
 
   const isFormValid = () => {
-    return title && authorUserId;
+    return title && authorUserId && !(id !== null || projectId);
   };
 
   const selectStyles =
@@ -135,6 +136,15 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
           value={assignedUserId}
           onChange={(e) => setAssignedUserId(e.target.value)}
         />
+        {id === null && (
+          <input
+            type="text"
+            className={inputStyles}
+            placeholder="ProjectId"
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+          />
+        )}
 
         <button
           type="submit"
