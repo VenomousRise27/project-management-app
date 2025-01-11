@@ -63,7 +63,7 @@ const Sidebar = () => {
         {/* Team */}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           <Image
-            src={isDarkMode ? "/logo_dark.png" : "/logo.png"}
+            src={isDarkMode ? "https://pm-s3-images-anhnguyen.s3.us-east-1.amazonaws.com/logo_dark.png" : "https://pm-s3-images-anhnguyen.s3.us-east-1.amazonaws.com/logo.png"}
             alt="Logo"
             width={40}
             height={40}
