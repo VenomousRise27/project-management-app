@@ -70,7 +70,7 @@ const columns: GridColDef[] = [
 const ReusablePriorityPage = ({ priority }: Props) => {
   const [view, setView] = useState("list");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
-  const userId = 1;
+  const userId = 4;
   const {
     data: tasks,
     isLoading,
@@ -84,6 +84,8 @@ const ReusablePriorityPage = ({ priority }: Props) => {
   const filteredTasks = tasks?.filter(
     (task: Task) => task.priority === priority,
   );
+  console.log("hello filtasks", filteredTasks);
+  console.log("hello tasks", tasks);
   if (isTasksError || !tasks) return <div>Error fetching tasks</div>;
 
   return (
@@ -112,16 +114,16 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         >
           List
         </button>
-      </div>
-      <div className="mb-4 flex justify-start">
         <button
           className={`px-4 py-2 ${
             view === "table" ? "bg-gray-300" : "bg-white"
           } rounded-l`}
-          onClick={() => setView("list")}
+          onClick={() => setView("table")}
         >
           Table
         </button>
+      </div>
+      <div className="mb-4 flex justify-start">
         {isLoading ? (
           <div>Loading tasks...</div>
         ) : view === "list" ? (

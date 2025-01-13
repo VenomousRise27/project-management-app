@@ -23,7 +23,7 @@ const Search = () => {
     },
     500,
   ); // searching every 0.5 seconds not on every typing incase people type really fast
-
+  console.log("hello search Results", searchResults);
   useEffect(() => {
     return handleSearch.cancel;
   }, [handleSearch.cancel]);
@@ -42,7 +42,7 @@ const Search = () => {
       <div className="p-5">
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching search results.</p>}
-        {!isLoading && !Error && searchResults && (
+        {!isLoading && !isError && searchResults && (
           <div>
             {searchResults.tasks && searchResults.tasks.length > 0 && (
               <h2>Tasks</h2>

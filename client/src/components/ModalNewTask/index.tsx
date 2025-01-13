@@ -22,6 +22,20 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const [assignedUserId, setAssignedUserId] = useState("");
   const [projectId, setProjectId] = useState("");
 
+  const handleOnClose = () => {
+    onClose();
+    setTitle("");
+    setDescription("");
+    setStatus(Status.ToDo);
+    setPriority(Priority.Backlog);
+    setTags("");
+    setStartDate("");
+    setDueDate("");
+    setAuthorUserId("");
+    setAssignedUserId("");
+    setProjectId("");
+  }
+
   const handleSubmit = async () => {
     if (!title && !authorUserId && !(id !== null || projectId)) return;
 
@@ -37,10 +51,11 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
       assignedUserId: parseInt(assignedUserId),
       projectId: id !== null ? id : Number(projectId),
     });
+    handleOnClose();
   };
 
   const isFormValid = () => {
-    return title && authorUserId && !(id !== null || projectId);
+    return title !== "" && authorUserId !== "" && !(id !== null || projectId != "");
   };
 
   const selectStyles =
@@ -48,7 +63,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const inputStyles =
     "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
   return (
-    <Modal isOpen={isOpen} onClose={onClose} name="Create New Task">
+    <Modal isOpen={isOpen} onClose={handleOnClose} name="Create New Task">
       <form
         className="mt-4 space-y-6"
         onSubmit={(e) => {
