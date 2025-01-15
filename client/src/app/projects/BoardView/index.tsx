@@ -1,5 +1,6 @@
 import {
   Priority,
+  Status,
   useGetTasksQuery,
   useUpdateTaskStatusMutation,
 } from "@/state/api";
@@ -10,14 +11,17 @@ import { Task as TaskType } from "@/state/api";
 import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
+import { stubArray } from "lodash";
+import { stat } from "fs";
 type BoardProps = {
   id: string;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  setTaskStatus: (taskStatus: Status) => void;
 };
 
 const taskStatus = ["To Do", "Work In Progress", "Under Review", "Completed"];
 
-const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
+const BoardView = ({ id, setIsModalNewTaskOpen, setTaskStatus }: BoardProps) => {
   const {
     data: tasks,
     isLoading,
@@ -39,6 +43,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
             tasks={tasks || []}
             moveTask={moveTask}
             setIsModalNewTaskOpen={setIsModalNewTaskOpen}
+            setTaskStatus={setTaskStatus}
           />
         ))}
       </div>
@@ -51,6 +56,7 @@ type TaskColumnProps = {
   tasks: TaskType[];
   moveTask: (taskId: number, toStatus: string) => void;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
+  setTaskStatus: (taskStatus: Status) => void;
 };
 
 const TaskColumn = ({
@@ -58,6 +64,7 @@ const TaskColumn = ({
   tasks,
   moveTask,
   setIsModalNewTaskOpen,
+  setTaskStatus
 }: TaskColumnProps) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
@@ -75,6 +82,22 @@ const TaskColumn = ({
     "Under Review": "#D97706",
     Completed: "#000000",
   };
+
+  const handleAddTask = () => {
+    setIsModalNewTaskOpen(true) ;
+    if(status === "To Do") {
+      setTaskStatus(Status.ToDo);
+    }
+    else if (status === "Work In Progress") {
+      setTaskStatus(Status.WorkInProgress);
+    }
+    else if (status === "Under Review") {
+      setTaskStatus(Status.UnderReview);
+    }
+    else {
+      setTaskStatus(Status.Completed)
+    }
+  }
 
   return (
     <div
@@ -104,7 +127,7 @@ const TaskColumn = ({
             </button>
             <button
               className="flex h-6 w-6 items-center justify-center rounded bg-gray-200 dark:bg-dark-tertiary dark:text-white"
-              onClick={() => setIsModalNewTaskOpen(true)}
+              onClick={() => { }}
             >
               <Plus size={16} />
             </button>

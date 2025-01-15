@@ -7,13 +7,14 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   id?: number | null;
+  taskStatus?: Status;
 };
 
-const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
+const ModalNewTask = ({ isOpen, onClose, id = null, taskStatus = Status.ToDo }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<Status>(Status.ToDo);
+  const [status, setStatus] = useState<Status>(taskStatus);
   const [priority, setPriority] = useState<Priority>(Priority.Backlog);
   const [tags, setTags] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -26,7 +27,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
     onClose();
     setTitle("");
     setDescription("");
-    setStatus(Status.ToDo);
+    setStatus(taskStatus);
     setPriority(Priority.Backlog);
     setTags("");
     setStartDate("");
