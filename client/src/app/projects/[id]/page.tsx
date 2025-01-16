@@ -31,7 +31,11 @@ const Projects = ({ params }: Props) => {
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {activeTab === "Board" && (
-        <BoardView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} setTaskStatus={setTaskStatus}/>
+        <BoardView
+          id={id}
+          setIsModalNewTaskOpen={setIsModalNewTaskOpen}
+          setTaskStatus={setTaskStatus}
+        />
       )}
       {activeTab === "List" && (
         <ListView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />

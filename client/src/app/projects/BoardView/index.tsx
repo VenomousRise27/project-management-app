@@ -12,7 +12,7 @@ import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
 import { stubArray } from "lodash";
-import { stat } from "fs";
+import { cp, stat } from "fs";
 type BoardProps = {
   id: string;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
@@ -21,7 +21,11 @@ type BoardProps = {
 
 const taskStatus = ["To Do", "Work In Progress", "Under Review", "Completed"];
 
-const BoardView = ({ id, setIsModalNewTaskOpen, setTaskStatus }: BoardProps) => {
+const BoardView = ({
+  id,
+  setIsModalNewTaskOpen,
+  setTaskStatus,
+}: BoardProps) => {
   const {
     data: tasks,
     isLoading,
@@ -64,7 +68,7 @@ const TaskColumn = ({
   tasks,
   moveTask,
   setIsModalNewTaskOpen,
-  setTaskStatus
+  setTaskStatus,
 }: TaskColumnProps) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
@@ -84,20 +88,17 @@ const TaskColumn = ({
   };
 
   const handleAddTask = () => {
-    setIsModalNewTaskOpen(true) ;
-    if(status === "To Do") {
+    setIsModalNewTaskOpen(true);
+    if (status === "To Do") {
       setTaskStatus(Status.ToDo);
-    }
-    else if (status === "Work In Progress") {
+    } else if (status === "Work In Progress") {
       setTaskStatus(Status.WorkInProgress);
-    }
-    else if (status === "Under Review") {
+    } else if (status === "Under Review") {
       setTaskStatus(Status.UnderReview);
+    } else {
+      setTaskStatus(Status.Completed);
     }
-    else {
-      setTaskStatus(Status.Completed)
-    }
-  }
+  };
 
   return (
     <div
@@ -127,7 +128,7 @@ const TaskColumn = ({
             </button>
             <button
               className="flex h-6 w-6 items-center justify-center rounded bg-gray-200 dark:bg-dark-tertiary dark:text-white"
-              onClick={() => { }}
+              onClick={() => handleAddTask()}
             >
               <Plus size={16} />
             </button>
@@ -257,7 +258,7 @@ const Task = ({ task }: TaskProps) => {
               />
             )}
 
-            {task.author &&(
+            {task.author && (
               <Image
                 key={task.author.userId}
                 src={`https://pm-s3-images-anhnguyen.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl!}`}
@@ -270,8 +271,10 @@ const Task = ({ task }: TaskProps) => {
           </div>
 
           <div className="flex items-center text-gray-500 dark:text-neutral-500">
-            <MessageSquareMore size={20}/>
-            <span className="ml-1 text-sm dark:text-neutral-400">{numberOfComments}</span>
+            <MessageSquareMore size={20} />
+            <span className="ml-1 text-sm dark:text-neutral-400">
+              {numberOfComments}
+            </span>
           </div>
         </div>
       </div>

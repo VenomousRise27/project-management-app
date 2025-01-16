@@ -1,5 +1,5 @@
 import { Priority, Status, useCreateTaskMutation } from "@/state/api";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatISO } from "date-fns";
 import Modal from "@/components/Modal";
 
@@ -10,11 +10,16 @@ type Props = {
   taskStatus?: Status;
 };
 
-const ModalNewTask = ({ isOpen, onClose, id = null, taskStatus = Status.ToDo }: Props) => {
+const ModalNewTask = ({
+  isOpen,
+  onClose,
+  id = null,
+  taskStatus = Status.ToDo,
+}: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<Status>(taskStatus);
+  const [status, setStatus] = useState<Status>(Status.ToDo);
   const [priority, setPriority] = useState<Priority>(Priority.Backlog);
   const [tags, setTags] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -23,11 +28,15 @@ const ModalNewTask = ({ isOpen, onClose, id = null, taskStatus = Status.ToDo }: 
   const [assignedUserId, setAssignedUserId] = useState("");
   const [projectId, setProjectId] = useState("");
 
+  useEffect(() => {
+    setStatus(taskStatus);
+  }, [taskStatus]);
+
   const handleOnClose = () => {
     onClose();
     setTitle("");
     setDescription("");
-    setStatus(taskStatus);
+    setStatus(Status.ToDo);
     setPriority(Priority.Backlog);
     setTags("");
     setStartDate("");
@@ -35,7 +44,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null, taskStatus = Status.ToDo }: 
     setAuthorUserId("");
     setAssignedUserId("");
     setProjectId("");
-  }
+  };
 
   const handleSubmit = async () => {
     if (!title && !authorUserId && !(id !== null || projectId)) return;
