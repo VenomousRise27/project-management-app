@@ -27,7 +27,7 @@ const ModalNewTask = ({
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
   const [projectId, setProjectId] = useState("");
-
+  
   useEffect(() => {
     setStatus(taskStatus);
   }, [taskStatus]);
@@ -36,7 +36,6 @@ const ModalNewTask = ({
     onClose();
     setTitle("");
     setDescription("");
-    setStatus(Status.ToDo);
     setPriority(Priority.Backlog);
     setTags("");
     setStartDate("");
@@ -165,7 +164,7 @@ const ModalNewTask = ({
           <input
             type="text"
             className={inputStyles}
-            placeholder="ProjectId"
+            placeholder="Project Id"
             value={projectId}
             onChange={(e) => setProjectId(e.target.value)}
           />
