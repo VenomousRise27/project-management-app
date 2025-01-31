@@ -11,7 +11,7 @@ const initialState : initialStateTypes = {
 };
 
 export const globalSlice = createSlice({
-  name: "golbal",
+  name: "global",
   initialState,
   reducers: {
     setIsSidebarCollapsed: (state, action: PayloadAction<boolean>) => {
