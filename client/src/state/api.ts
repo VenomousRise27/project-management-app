@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 
 export interface Project {
   id: number;
@@ -126,6 +127,21 @@ export const api = createApi({
       query: () => "users",
       providesTags: ["Users"],
     }),
+    getAuthUser: build.query({
+      queryFn: async(_,_queryApi, _extraoptions, fetchWithBQ) => {
+        try {
+          const user = await getCurrentUser();
+          const session = await fetchAuthSession();
+          if(!session) {
+            throw new Error("No session found");
+          }
+          const {userSub} = session ; 
+          
+        }catch(e:any) {
+
+        }
+      }
+    })
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`,
     }),

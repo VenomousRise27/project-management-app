@@ -36,3 +36,17 @@ export const createUsers = async (
     res.status(500).json({ message: `Error retrieving users: ${e.message}` });
   }
 };
+
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+  const {congnitoId } = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        cognitoId: congnitoId
+      }
+    });
+    res.json(user);
+  } catch (e: any) {
+    res.status(500).json({ message: `Error retrieving user: ${e.message}` });
+  }
+};

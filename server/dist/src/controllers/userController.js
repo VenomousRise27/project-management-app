@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUsers = exports.getUsers = void 0;
+exports.getUser = exports.createUsers = exports.getUsers = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,3 +40,18 @@ const createUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.createUsers = createUsers;
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { congnitoId } = req.params;
+    try {
+        const user = yield prisma.user.findUnique({
+            where: {
+                cognitoId: congnitoId
+            }
+        });
+        res.json(user);
+    }
+    catch (e) {
+        res.status(500).json({ message: `Error retrieving user: ${e.message}` });
+    }
+});
+exports.getUser = getUser;
