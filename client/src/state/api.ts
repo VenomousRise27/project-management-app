@@ -75,7 +75,18 @@ export interface Team {
 }
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    prepareHeaders: async (headers) => {
+      const session = await fetchAuthSession();
+      const { accessToken } = session.tokens ?? {};
+
+      if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
+      }
+      return headers;
+    },
+  }),
   reducerPath: "api",
   tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   endpoints: (build) => ({
@@ -128,20 +139,25 @@ export const api = createApi({
       providesTags: ["Users"],
     }),
     getAuthUser: build.query({
-      queryFn: async(_,_queryApi, _extraoptions, fetchWithBQ) => {
+      queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
         try {
           const user = await getCurrentUser();
           const session = await fetchAuthSession();
-          if(!session) {
+          if (!session) {
             throw new Error("No session found");
           }
-          const {userSub} = session ; 
-          
-        }catch(e:any) {
+          const { userSub } = session;
+          const { accessToken } = session.tokens ?? {};
 
+          const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);
+          const userDetails = userDetailsResponse.data as User;
+
+          return { data: { user, userSub, userDetails } };
+        } catch (e: any) {
+          return { error: e.message || "Could not fetch user data" };
         }
-      }
-    })
+      },
+    }),
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`,
     }),
@@ -161,5 +177,6 @@ export const {
   useSearchQuery,
   useGetUsersQuery,
   useGetTeamsQuery,
-  useGetTasksByUserQuery
+  useGetTasksByUserQuery,
+  useGetAuthUserQuery,
 } = api;
