@@ -1,10 +1,5 @@
 # Project Management App
-This project involves the creation of a modern project management app, designed to streamline task and project management. The app allows users to add tasks 
-to a backlog, track task progress through various stages, set priorities, and search for tasks efficiently. It 
-also includes a dark mode for enhanced user experience. The frontend is built with Next.js for 
-performant interfaces, styled using Tailwind CSS, and features Material UI Data Grid for handling 
-complex data presentations. State management is streamlined with Redux Toolkit, while Redux Toolkit 
-Query ensures effective data fetching.
+This project involves the creation of a modern project management app, designed to streamline task and project management. The app allows users to add tasks to a backlog, track task progress through various stages, set priorities, and search for tasks efficiently. It also includes a dark mode for enhanced user experience. The frontend is built with Next.js for performant interfaces, styled using Tailwind CSS, and features Material UI Data Grid for handling complex data presentations. State management is streamlined with Redux Toolkit, while Redux Toolkit Query ensures effective data fetching.
 
 ## Table of content
 - Technologies
